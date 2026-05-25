@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Marietta Weather Intelligence</title>
+    <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  </head>
+  <body>
+    <div id="dashboard">
+      <header id="page-header">
+        <div>
+          <h1>Marietta Weather Intelligence</h1>
+          <p class="subtitle">Real-Time Weather Dashboard for Marietta, Georgia.</p>
+        </div>
+      </header>
+      <!-- hero summary removed per request -->
+      <div id="alert" role="alert" aria-live="assertive" class="hidden"></div>
+      <div id="annotations" aria-live="polite"></div>
+      <div id="precip-map" aria-hidden="false">
+        <div class="map-caption" aria-hidden="true">Live radar overlay</div>
+        <div class="map-legend" aria-hidden="true">
+          <div class="map-legend-item"><span class="swatch swatch-extreme"></span>Extreme</div>
+          <div class="map-legend-item"><span class="swatch swatch-heavy"></span>Heavy</div>
+          <div class="map-legend-item"><span class="swatch swatch-moderate"></span>Moderate</div>
+          <div class="map-legend-item"><span class="swatch swatch-light"></span>Light</div>
+        </div>
+      </div>
+      <div id="status">Initializing…</div>
+      <footer id="page-footer">
+        <div class="footer-brand">
+          <span class="footer-title">Built by Tempa Reid</span>
+          <span class="footer-subtitle">Technology Stack</span>
+        </div>
+        <div class="footer-stack">Open-Meteo API • Leaflet.js • JavaScript (ES6+) • HTML5 • CSS3 • SVG Weather Icons • Responsive Design</div>
+        <div class="footer-copy">© 2026 Marietta Weather Intelligence</div>
+      </footer>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+/* Full-screen green background with subtle annotations */
+html,body{height:100%;margin:0}
+#body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0a8f3a;color:#fff}
+body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 22%), radial-gradient(circle at bottom right, rgba(0,0,0,0.15), transparent 35%), #0a8f3a;color:#fff}
+#dashboard{width:100%;height:100vh;box-sizing:border-box;padding:32px;display:grid;grid-template-columns:minmax(280px,480px) 420px;gap:24px;align-items:start}
+#page-header{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;min-height:120px}
+#page-header h1{margin:0;font-size:clamp(1.9rem,2.25vw,3rem);letter-spacing:-0.03em;line-height:1.05}
+#page-header p{margin:10px 0 0;font-size:1rem;color:rgba(255,255,255,0.82);max-width:52ch;line-height:1.6}
+.subtitle{margin:6px 0 0;font-size:1rem;color:rgba(255,255,255,0.86);max-width:60ch}
+#annotations{display:flex;flex-direction:column;gap:12px;width:100%;max-width:100%}
+.annotation{background:rgba(255,255,255,0.06);padding:12px;border-radius:10px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 8px 24px rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.06)}
+.annotation .label{font-weight:700;font-size:14px;margin-bottom:6px}
+.annotation .value{font-size:20px;display:flex;align-items:center;gap:8px}
+.weather-icon{width:40px;height:40px;flex:0 0 40px}
+
+/* Icon animations */
+.weather-icon{pointer-events:none}
+
+/* Sun: rotate rays */
+.icon-clear svg g { transform-origin: 50% 50%; animation: sun-rotate 8s linear infinite; }
+@keyframes sun-rotate{ to{ transform: rotate(360deg); } }
+
+/* Partly cloudy: slight drift */
+.icon-partly_cloudy svg path, .icon-partly_cloudy svg g { animation: cloud-drift 6s ease-in-out infinite; transform-origin:50% 50%; }
+@keyframes cloud-drift{ 0%{ transform: translateX(0) } 50%{ transform: translateX(-4px) } 100%{ transform: translateX(0) } }
+
+/* Cloudy: gentle bob */
+.icon-cloudy svg { animation: cloud-bob 6s ease-in-out infinite; transform-origin:50% 50%; }
+@keyframes cloud-bob{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-3px) } 100%{ transform: translateY(0) } }
+
+/* Rain: falling drops (staggered) */
+.icon-rain svg g path{ animation: rain-fall 1s linear infinite; }
+.icon-rain svg g path:nth-child(1){ animation-delay: 0s }
+.icon-rain svg g path:nth-child(2){ animation-delay: 0.2s }
+.icon-rain svg g path:nth-child(3){ animation-delay: 0.4s }
+@keyframes rain-fall{ 0%{ transform: translateY(-6px); opacity:0 } 10%{ opacity:1 } 100%{ transform: translateY(8px); opacity:0 } }
+
+/* Snow: slow float and rotate */
+.icon-snow svg g{ animation: snow-fall 3s linear infinite; }
+@keyframes snow-fall{ 0%{ transform: translateY(-4px) rotate(0deg); opacity:0 } 30%{ opacity:1 } 100%{ transform: translateY(8px) rotate(180deg); opacity:0 } }
+
+/* Thunder: brief flash */
+.icon-thunder svg path:nth-of-type(2){ animation: thunder-flash 2s steps(2) infinite; }
+@keyframes thunder-flash{ 0%,70%{ opacity:0 } 71%,74%{ opacity:1 } 75%,100%{ opacity:0 } }
+
+/* Fog: slow horizontal shimmer */
+.icon-fog svg path{ animation: fog-shift 6s linear infinite; }
+@keyframes fog-shift{ 0%{ transform: translateX(0) } 50%{ transform: translateX(-6px) } 100%{ transform: translateX(0) } }
+#status{position:relative;justify-self:end;background:rgba(255,255,255,0.08);padding:10px 14px;border-radius:999px;font-size:13px;border:1px solid rgba(255,255,255,0.08);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+
+/* Alert banner */
+.alert-container{grid-column:1/-1}
+#alert{grid-column:1/-1;position:relative;padding:12px 16px;border-radius:10px;font-weight:700;color:#1b1b1b;background:linear-gradient(90deg,#FFD54A,#FF7043);box-shadow:0 8px 20px rgba(0,0,0,0.18);border:1px solid rgba(0,0,0,0.08);}
+.hidden{display:none}
+.alert-small{font-weight:600;font-size:13px}
+
+/* Precipitation map panel */
+#precip-map{position:relative;width:100%;height:320px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);box-shadow:0 14px 35px rgba(0,0,0,0.28)}
+#precip-map .leaflet-container{background:transparent}
+#precip-map .rain-overlay{opacity:0.54 !important;filter:brightness(1.08) contrast(1.05);}
+#precip-map .map-caption{position:absolute;left:14px;bottom:14px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.52);color:#f5f7fb;font-size:0.92rem;font-weight:600;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 0 24px rgba(127, 210, 255, 0.16);animation:pulse-glow 4s ease-in-out infinite;z-index:35;pointer-events:none;}
+#precip-map .map-legend{position:absolute;right:14px;bottom:14px;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,0.46);color:#f5f7fb;font-size:0.86rem;line-height:1.7;display:grid;gap:6px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:35;pointer-events:none;border:1px solid rgba(255,255,255,0.08);}
+#precip-map .map-legend-item{display:flex;align-items:center;gap:8px;}
+#precip-map .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;box-shadow:0 0 0 1px rgba(255,255,255,0.08);}
+#precip-map .swatch-extreme{background:#ffd600;}
+#precip-map .swatch-heavy{background:#ffc107;}
+#precip-map .swatch-moderate{background:#8a2be2;}
+#precip-map .swatch-light{background:#66c0ff;}
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(127,210,255,0.12);transform:translateY(0)}50%{box-shadow:0 0 30px rgba(127,210,255,0.24);transform:translateY(-1px)}}
+
+/* Draggable handle */
+.map-handle{position:absolute;left:8px;top:8px;width:30px;height:30px;border-radius:8px;background:rgba(0,0,0,0.38);display:flex;align-items:center;justify-content:center;color:#f7fbff;font-size:18px;cursor:grab;z-index:40;box-shadow:0 10px 24px rgba(0,0,0,0.32);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.map-handle:active{cursor:grabbing}
+
+.map-dock{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#f7fbff;font-size:16px;border:1px solid rgba(255,255,255,0.14);cursor:pointer;z-index:41}
+.map-dock:hover{background:rgba(255,255,255,0.12)}
+
+/* Floating state when user drags the panel */
+.precip-floating{position:fixed;z-index:60;box-shadow:0 20px 40px rgba(0,0,0,0.4);transform:none}
+
+/* Prevent map gestures from interfering when dragging handle */
+.map-dragging .leaflet-container{pointer-events:none}
+
+/* Dock button to snap the map back into the grid */
+.map-dock{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:6px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;z-index:41}
+.map-dock:hover{background:rgba(255,255,255,0.1)}
+
+/* When docked, ensure no floating class is applied */
+.map-docked{position:relative}
+
+@media (max-width:900px){
+	#dashboard{grid-template-columns:1fr}
+	#page-header{flex-direction:column;align-items:flex-start}
+	#precip-map{height:260px}
+	#status{justify-self:start}
+}
+
+/* Responsive tweaks */
+@media (max-width:500px){.annotation .value{font-size:18px}}
+
+/* Footer styles */
+#page-footer{grid-column:1/-1;display:flex;flex-direction:column;gap:10px;padding:18px 16px 14px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.88);font-size:0.95rem}
+.footer-brand{display:flex;flex-direction:column;gap:4px}
+.footer-title{font-size:1rem;font-weight:700}
+.footer-subtitle{font-size:0.92rem;color:rgba(255,255,255,0.72)}
+.footer-stack{line-height:1.7;color:rgba(255,255,255,0.82)}
+.footer-copy{opacity:0.9;color:rgba(255,255,255,0.75)}
+
+@media (max-width:700px){
+	#page-footer{padding:16px 14px}
+}
