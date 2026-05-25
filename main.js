@@ -1,6 +1,7 @@
 // Real-time weather annotations using Open-Meteo (no API key required)
 (function(){
   const annotations = document.getElementById('annotations');
+  const forecastEl = document.getElementById('forecast');
   const status = document.getElementById('status');
   const updateInterval = 60_000; // 60 seconds
 
@@ -59,6 +60,36 @@
     addAnnotation('Observed', new Date(cw.time).toLocaleString());
   }
 
+  function clearForecast(){ if(forecastEl) forecastEl.innerHTML = '' }
+  function formatDay(dateString){ return new Date(dateString).toLocaleDateString('en-US',{weekday:'short'}) }
+
+  async function renderForecast(daily){
+    if(!forecastEl) return;
+    clearForecast();
+    if(!daily || !daily.time || !daily.time.length) return;
+
+    const days = daily.time.slice(0,7);
+    const cards = await Promise.all(days.map(async (dateStr, index) => {
+      const card = document.createElement('div'); card.className = 'forecast-card';
+      const dayName = document.createElement('div'); dayName.className = 'forecast-day'; dayName.textContent = formatDay(dateStr);
+      const iconWrapper = document.createElement('div'); iconWrapper.className = 'forecast-icon';
+      const iconName = codeToIcon((daily.weathercode || [])[index] ?? 0);
+      const svgEl = await loadSVG(iconName);
+      svgEl.setAttribute ? svgEl.setAttribute('role','img') : svgEl.setAttribute && svgEl.setAttribute('role','img');
+      iconWrapper.appendChild(svgEl);
+      const temps = document.createElement('div'); temps.className = 'forecast-temps';
+      const high = document.createElement('div'); high.className = 'forecast-high'; high.textContent = `H ${Math.round((daily.temperature_2m_max || [])[index] ?? 0)}°`;
+      const low = document.createElement('div'); low.className = 'forecast-low'; low.textContent = `L ${Math.round((daily.temperature_2m_min || [])[index] ?? 0)}°`;
+      temps.appendChild(high); temps.appendChild(low);
+      card.appendChild(dayName);
+      card.appendChild(iconWrapper);
+      card.appendChild(temps);
+      return card;
+    }));
+
+    cards.forEach(card => forecastEl.appendChild(card));
+  }
+
   function codeToIcon(code){
     if(code === 0 || code === 1) return 'clear';
     if(code === 2) return 'partly_cloudy';
@@ -73,11 +104,11 @@
   async function fetchWeather(lat, lon){
     try{
       setStatus('Fetching weather…');
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph`;
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto`;
       const res = await fetch(url);
       if(!res.ok) throw new Error(res.statusText);
       const json = await res.json();
-      if(json.current_weather){ render(json.current_weather); setStatus('Last update: ' + new Date(json.current_weather.time).toLocaleTimeString()); }
+      if(json.current_weather){ await render(json.current_weather); await renderForecast(json.daily); setStatus('Last update: ' + new Date(json.current_weather.time).toLocaleTimeString()); }
       else setStatus('No current weather returned');
     }catch(err){ console.error(err); setStatus('Weather fetch error'); }
   }

@@ -8,6 +8,13 @@ body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gr
 #page-header p{margin:10px 0 0;font-size:1rem;color:rgba(255,255,255,0.82);max-width:52ch;line-height:1.6}
 .subtitle{margin:6px 0 0;font-size:1rem;color:rgba(255,255,255,0.86);max-width:60ch}
 #annotations{display:flex;flex-direction:column;gap:12px;width:100%;max-width:100%}
+#forecast{grid-column:1/-1;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;margin-top:10px}
+.forecast-card{background:rgba(255,255,255,0.05);padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);display:grid;gap:10px;align-items:start;text-align:center}
+.forecast-day{font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#dff3ff}
+.forecast-icon{display:flex;justify-content:center;align-items:center;height:46px}
+.forecast-temps{display:flex;justify-content:center;gap:10px;font-size:0.9rem;color:#eef7ff}
+.forecast-high{font-weight:700}
+.forecast-low{opacity:0.82}
 .annotation{background:rgba(255,255,255,0.06);padding:12px;border-radius:10px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 8px 24px rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.06)}
 .annotation .label{font-weight:700;font-size:14px;margin-bottom:6px}
 .annotation .value{font-size:20px;display:flex;align-items:center;gap:8px}
@@ -91,8 +98,15 @@ body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gr
 @media (max-width:900px){
 	#dashboard{grid-template-columns:1fr}
 	#page-header{flex-direction:column;align-items:flex-start}
+	#forecast{grid-template-columns:repeat(4,minmax(0,1fr))}
 	#precip-map{height:260px}
 	#status{justify-self:start}
+}
+@media (max-width:650px){
+	#forecast{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:420px){
+	#forecast{grid-template-columns:1fr}
 }
 
 /* Responsive tweaks */
