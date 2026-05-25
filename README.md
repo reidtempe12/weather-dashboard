@@ -1,39 +1,127 @@
-# Marietta Weather Intelligence Dashboard
+# Marietta Weather Intelligence
 
-A polished, interview-ready weather intelligence dashboard built with vanilla HTML, CSS, and JavaScript.
+A real-time weather dashboard for Marietta, Georgia, built with modern front-end technologies and live weather APIs. Designed for portfolio demonstration with a polished, dark-themed UI and interactive radar visualization.
 
-## Overview
+## ✨ Features
 
-This project showcases a modern, responsive weather interface with:
+- **Real-Time Weather Data**: Fetches current conditions (temperature, wind, condition) from Open-Meteo API (no API key required)
+- **Live Radar Overlay**: Interactive precipitation radar powered by RainViewer with intensity color legend
+- **Dark-Themed Map**: Leaflet.js map with Carto dark tiles for a premium dashboard aesthetic
+- **Animated Weather Icons**: Custom SVG icons with smooth, contextual animations
+- **Draggable Radar Panel**: Floating weather radar panel with smooth drag-and-dock animation back to grid
+- **Responsive Design**: Adapts seamlessly from desktop to mobile viewports
+- **Portfolio-Ready**: Clean, professional UI with glass-morphism effects and subtle micro-interactions
 
-- Live weather data from Open-Meteo (no API key required)
-- Interactive map powered by Leaflet
-- Clean annotation cards for temperature, wind, and weather conditions
-- Responsive design for desktop and mobile screens
+## 🛠️ Technology Stack
 
-## Features
+- **Frontend**: HTML5, CSS3 (ES6+), vanilla JavaScript
+- **APIs**: 
+  - [Open-Meteo](https://open-meteo.com/) — Weather data (free, no key required)
+  - [RainViewer](https://www.rainviewer.com/) — Live precipitation radar
+- **Libraries**: 
+  - [Leaflet.js](https://leafletjs.com/) — Interactive mapping
+  - [Carto Tiles](https://carto.com/) — Dark map tiles
+- **Design**: CSS Grid, Flexbox, Glass-morphism, Keyframe animations
 
-- Real-time weather display for Marietta, GA
-- Default Fahrenheit temperature units
-- Animated SVG weather icons
-- Forecast-style radar overlay using RainViewer tiles
-- Draggable, dockable map panel for enhanced interaction
+## 🚀 Quick Start
 
-## Getting Started
+### Local Development
 
-1. Open `index.html` in a modern browser.
-2. For best results, serve the project from a local server (for example, VS Code Live Server).
-3. Allow location access if prompted to enable live geolocation.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YOUR-USERNAME/marietta-weather-dashboard.git
+   cd marietta-weather-dashboard
+   ```
 
-## Files
+2. Open in your browser:
+   ```bash
+   # Simply open index.html or use a local server:
+   python -m http.server 8000  # then visit http://localhost:8000
+   ```
 
-- `index.html` — dashboard layout and structure
-- `main.css` — responsive styling and UI polish
-- `main.js` — weather API integration and map behavior
-- `icons/` — SVG weather icons used by the dashboard
+No build process or dependencies required — vanilla JavaScript and CDN libraries only.
 
-## Notes
+## 📁 Project Structure
 
-- Works entirely client-side.
-- Designed for portfolio presentation and live demo use.
-- Customize the color palette, icon set, or location support by editing the source files.
+```
+.
+├── index.html           # Main page structure
+├── main.css             # Styling and animations
+├── main.js              # API integration and map initialization
+├── README.md            # Project documentation
+├── icons/               # SVG weather icons
+│   ├── clear.svg
+│   ├── partly_cloudy.svg
+│   ├── cloudy.svg
+│   ├── rain.svg
+│   ├── snow.svg
+│   ├── fog.svg
+│   └── thunder.svg
+└── .gitignore           # Git exclusions
+```
+
+## 🌐 Live Deployment
+
+### GitHub Pages
+
+1. Push to your GitHub repository
+2. Go to **Settings → Pages**
+3. Set source to `main` branch and `/root` directory
+4. Your dashboard is live at `https://YOUR-USERNAME.github.io/marietta-weather-dashboard`
+
+## 🎨 Design Features
+
+- **Dark Color Palette**: Subtle green background with glassmorphic annotation cards
+- **Animated Weather Icons**: Sun rotation, cloud drift, rain cascade, snow float, thunder flash, and fog shimmer
+- **Precipitation Legend**: Color-coded rain intensity scale
+  - 🟨 **Extreme** (yellow)
+  - 🟨 **Heavy** (yellow)
+  - 🟣 **Moderate** (purple)
+  - 🔵 **Light** (blue)
+- **Interactive Radar**: Drag-and-dock map panel with persistent positioning
+- **Pulsing Glow Effects**: Subtle micro-animations on caption and controls
+- **Touch-Friendly**: Works seamlessly on desktop and mobile devices
+
+## 📊 Data & Coverage
+
+- **Location**: Marietta, Georgia (33.9526°N, 84.5499°W)
+- **Weather Source**: Open-Meteo API (no registration required)
+- **Radar Source**: RainViewer (free tier)
+- **Units**: Fahrenheit, Miles Per Hour
+- **Refresh Rate**: Every 60 seconds
+
+## 🗺️ Map Interactions
+
+- **Drag**: Click the hamburger handle (≡) to reposition the radar panel
+- **Dock**: Click the dock arrow (⤒) to snap the map back into the grid
+- **Persistent**: Browser localStorage remembers your panel position
+- **Responsive**: Leaflet handles zoom and pan naturally
+
+## 💡 Code Highlights
+
+- **No Build Tools**: Pure vanilla JavaScript — runs directly in the browser
+- **No API Keys**: Open-Meteo requires no authentication
+- **Clean Architecture**: Modular functions for weather fetching, rendering, and map management
+- **Error Handling**: Graceful fallbacks and error logging
+- **Performance**: Optimized animations and event delegation
+
+## 🎯 Future Enhancements
+
+- [ ] Multi-location weather search
+- [ ] Hourly forecast timeline
+- [ ] Severe weather alerts integration
+- [ ] Dark/Light theme toggle
+- [ ] 7-day forecast view
+- [ ] Temperature unit toggle (°F / °C)
+
+## 📝 License
+
+MIT License — feel free to fork and modify for your own projects.
+
+## 👨‍💻 Author
+
+Built by **Tempa Reid**
+
+---
+
+**Note**: This project is designed for portfolio demonstration. All data is fetched client-side from free, public APIs with no backend required.
