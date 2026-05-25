@@ -120,7 +120,7 @@
         const tilePath = frame.path || `/v2/radar/${frame.time}`;
         const url = `${json.host || 'https://tilecache.rainviewer.com'}${tilePath}/256/{z}/{x}/{y}/2/1_0.png`;
         if(map._rainLayer) map.removeLayer(map._rainLayer);
-        const rainLayer = L.tileLayer(url, {opacity:0.52, zIndex:10, className:'rain-overlay', minZoom:3, maxZoom:18, maxNativeZoom:18});
+        const rainLayer = L.tileLayer(url, {opacity:0.52, zIndex:10, className:'rain-overlay', minZoom:3, maxZoom:18});
         rainLayer.addTo(map);
         map._rainLayer = rainLayer;
       }catch(e){ console.warn('RainViewer load failed', e); }
