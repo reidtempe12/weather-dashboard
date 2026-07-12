@@ -1,18 +1,18 @@
 /* Full-screen green background with subtle annotations */
 html,body{height:100%;margin:0}
-#body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0a8f3a;color:#fff}
-body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 22%), radial-gradient(circle at bottom right, rgba(0,0,0,0.15), transparent 35%), #0a8f3a;color:#fff}
+#body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#0a8f3a;color:#000}
+body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 22%), radial-gradient(circle at bottom right, rgba(0,0,0,0.15), transparent 35%), #0a8f3a;color:#000}
 #dashboard{width:100%;height:100vh;box-sizing:border-box;padding:32px;display:grid;grid-template-columns:minmax(280px,480px) 420px;gap:24px;align-items:start}
 #page-header{grid-column:1/-1;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:16px;min-height:180px;text-align:center}
 #page-header h1{margin:0;font-size:clamp(2.8rem,5vw,5rem);letter-spacing:-0.03em;line-height:1.05}
-#page-header p{margin:10px 0 0;font-size:1.2rem;color:rgba(255,255,255,0.82);max-width:52ch;line-height:1.6}
-.subtitle{margin:6px 0 0;font-size:1.2rem;color:rgba(255,255,255,0.86);max-width:60ch}
+#page-header p{margin:10px 0 0;font-size:1.2rem;color:rgba(0,0,0,0.82);max-width:52ch;line-height:1.6}
+.subtitle{margin:6px 0 0;font-size:1.2rem;color:rgba(0,0,0,0.86);max-width:60ch}
 #annotations{display:flex;flex-direction:column;gap:12px;width:100%;max-width:100%}
 #forecast{grid-column:1/-1;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px;margin-top:10px}
 .forecast-card{background:rgba(255,255,255,0.05);padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);display:grid;gap:10px;align-items:start;text-align:center}
-.forecast-day{font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#dff3ff}
+.forecast-day{font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#111}
 .forecast-icon{display:flex;justify-content:center;align-items:center;height:46px}
-.forecast-temps{display:flex;justify-content:center;gap:10px;font-size:0.9rem;color:#eef7ff}
+.forecast-temps{display:flex;justify-content:center;gap:10px;font-size:0.9rem;color:#111}
 .forecast-high{font-weight:700}
 .forecast-low{opacity:0.82}
 .annotation{background:rgba(255,255,255,0.06);padding:12px;border-radius:10px;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);box-shadow:0 8px 24px rgba(0,0,0,0.18);border:1px solid rgba(255,255,255,0.06)}
@@ -62,13 +62,17 @@ body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gr
 .alert-small{font-weight:600;font-size:13px}
 
 /* Precipitation map panel */
-#precip-map{position:relative;width:100%;height:320px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.08);box-shadow:0 14px 35px rgba(0,0,0,0.28)}
-#precip-map .leaflet-container{background:transparent;z-index:1}
+#precip-map{position:relative;width:100%;min-height:320px;height:min(48vh,380px);grid-column:1/-1;display:block;background:#102231;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);box-shadow:0 14px 35px rgba(0,0,0,0.28);margin-top:8px;touch-action:manipulation}
+#precip-map .leaflet-container{background:#102231}
 #precip-map .rain-overlay{opacity:0.54 !important;filter:brightness(1.08) contrast(1.05);}
 #precip-map .map-caption{position:absolute;left:14px;bottom:14px;padding:8px 12px;border-radius:10px;background:rgba(0,0,0,0.52);color:#f5f7fb;font-size:0.92rem;font-weight:600;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 0 24px rgba(127, 210, 255, 0.16);animation:pulse-glow 4s ease-in-out infinite;z-index:35;pointer-events:none;}
 #precip-map .map-legend{position:absolute;right:14px;bottom:14px;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,0.46);color:#f5f7fb;font-size:0.86rem;line-height:1.7;display:grid;gap:6px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);z-index:35;pointer-events:none;border:1px solid rgba(255,255,255,0.08);}
 #precip-map .map-legend-item{display:flex;align-items:center;gap:8px;}
 #precip-map .swatch{width:12px;height:12px;border-radius:3px;display:inline-block;box-shadow:0 0 0 1px rgba(255,255,255,0.08);}
+.leaflet-control-zoom{margin:12px !important;border:none !important;box-shadow:0 10px 24px rgba(0,0,0,0.28) !important}
+.leaflet-control-zoom a{width:42px;height:42px;line-height:42px;font-size:20px;background:rgba(16,34,49,0.95);color:#fff;border:1px solid rgba(255,255,255,0.12)}
+.leaflet-control-zoom a:hover{background:rgba(25,53,76,0.98)}
+.leaflet-control-zoom a:focus{outline:2px solid rgba(255,255,255,0.25);outline-offset:2px}
 #precip-map .swatch-extreme{background:#ffd600;}
 #precip-map .swatch-heavy{background:#ffc107;}
 #precip-map .swatch-moderate{background:#8a2be2;}
@@ -76,10 +80,10 @@ body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gr
 @keyframes pulse-glow{0%,100%{box-shadow:0 0 20px rgba(127,210,255,0.12);transform:translateY(0)}50%{box-shadow:0 0 30px rgba(127,210,255,0.24);transform:translateY(-1px)}}
 
 /* Draggable handle */
-.map-handle{position:absolute;left:8px;top:8px;width:30px;height:30px;border-radius:8px;background:rgba(0,0,0,0.38);display:flex;align-items:center;justify-content:center;color:#f7fbff;font-size:18px;cursor:grab;z-index:1002;box-shadow:0 10px 24px rgba(0,0,0,0.32);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.map-handle{position:absolute;left:8px;top:8px;width:30px;height:30px;border-radius:8px;background:rgba(0,0,0,0.38);display:flex;align-items:center;justify-content:center;color:#f7fbff;font-size:18px;cursor:grab;z-index:40;box-shadow:0 10px 24px rgba(0,0,0,0.32);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 .map-handle:active{cursor:grabbing}
 
-.map-dock{position:absolute;right:56px;top:8px;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#f7fbff;font-size:16px;border:1px solid rgba(255,255,255,0.14);cursor:pointer;z-index:1002}
+.map-dock{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#f7fbff;font-size:16px;border:1px solid rgba(255,255,255,0.14);cursor:pointer;z-index:41}
 .map-dock:hover{background:rgba(255,255,255,0.12)}
 
 /* Floating state when user drags the panel */
@@ -89,7 +93,7 @@ body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gr
 .map-dragging .leaflet-container{pointer-events:none}
 
 /* Dock button to snap the map back into the grid */
-.map-dock{position:absolute;right:56px;top:8px;width:30px;height:30px;border-radius:6px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;z-index:1002}
+.map-dock{position:absolute;right:8px;top:8px;width:30px;height:30px;border-radius:6px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;z-index:41}
 .map-dock:hover{background:rgba(255,255,255,0.1)}
 
 /* When docked, ensure no floating class is applied */
@@ -99,8 +103,15 @@ body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gr
 	#dashboard{grid-template-columns:1fr}
 	#page-header{flex-direction:column;align-items:flex-start}
 	#forecast{grid-template-columns:repeat(4,minmax(0,1fr))}
-	#precip-map{height:260px}
+	#precip-map{height:300px;min-height:300px}
 	#status{justify-self:start}
+}
+@media (max-width:600px){
+	#precip-map{height:260px;min-height:260px}
+	#precip-map .map-caption{left:10px;right:10px;bottom:10px;font-size:0.82rem}
+	#precip-map .map-legend{right:10px;bottom:10px;padding:10px 12px;font-size:0.78rem}
+	.leaflet-control-zoom{margin:10px !important}
+	.leaflet-control-zoom a{width:44px;height:44px;line-height:44px;font-size:22px}
 }
 @media (max-width:650px){
 	#forecast{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -113,10 +124,10 @@ body{font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gr
 @media (max-width:500px){.annotation .value{font-size:18px}}
 
 /* Footer styles */
-#page-footer{grid-column:1/-1;display:flex;flex-direction:column;gap:10px;padding:18px 16px 14px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.88);font-size:0.95rem}
+#page-footer{grid-column:1/-1;display:flex;flex-direction:column;gap:10px;padding:18px 16px 14px;border-top:1px solid rgba(255,255,255,0.08);color:rgba(0,0,0,0.88);font-size:0.95rem}
 .footer-brand{display:flex;flex-direction:column;gap:4px}
 .footer-title{font-size:1rem;font-weight:700}
-.footer-copy{opacity:0.9;color:rgba(255,255,255,0.75)}
+.footer-copy{opacity:0.9;color:rgba(0,0,0,0.75)}
 
 @media (max-width:700px){
 	#page-footer{padding:16px 14px}

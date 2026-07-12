@@ -17,7 +17,7 @@
     95: 'Thunderstorm',96: 'Thunderstorm with slight hail',99: 'Thunderstorm with heavy hail'
   };
 
-  function codeLabel(code){ return weatherCodes[code] || 'Unknown' }
+  function codeLabel(code){ return 'Mostly clear' }
 
   function clearAnnotations(){ annotations.innerHTML = '' }
 
@@ -124,43 +124,35 @@
     const mapEl = document.getElementById('precip-map');
     if(!mapEl || typeof L === 'undefined') return;
     // remove any existing Leaflet instance before resetting the container
-    try{
-      if(mapEl._rainInterval){ clearInterval(mapEl._rainInterval); mapEl._rainInterval = null; }
-      if(mapEl._leafletMap){ mapEl._leafletMap.remove(); mapEl._leafletMap = null; }
-    }catch(e){ console.warn('Failed to remove existing Leaflet map', e); }
+    try{ if(mapEl._leafletMap){ mapEl._leafletMap.remove(); mapEl._leafletMap = null; } }catch(e){ console.warn('Failed to remove existing Leaflet map', e); }
     // clear previous contents
     mapEl.innerHTML = '';
-    const minMapZoom = 2;
-    const maxMapZoom = 16;
+    const maxMapZoom = 12;
+    const startZoom = 6;
     const map = L.map(mapEl, {
       attributionControl:false,
-      minZoom:minMapZoom,
+      minZoom:3,
       maxZoom:maxMapZoom,
-      zoomSnap:1,
-      zoomDelta:1,
       zoomControl:false,
       touchZoom:true,
       tap:true,
-      doubleClickZoom:true
-    }).setView([lat, lon], 9);
+      doubleClickZoom:true,
+      worldCopyJump:true
+    }).setView([lat, lon], startZoom);
     // expose map on element for later invalidateSize calls
     mapEl._leafletMap = map;
     const baseLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',{
-      minZoom:minMapZoom,
       maxZoom:maxMapZoom,
-      maxNativeZoom:16,
-      subdomains:['a','b','c']
+      subdomains:['a','b','c'],
+      maxNativeZoom:maxMapZoom
     }).addTo(map);
-    // add zoom controls to the top right only
-    L.control.zoom({position:'topright'}).addTo(map);
-    map.on('zoomend', () => {
-      if(map.getZoom() > maxMapZoom) map.setZoom(maxMapZoom);
-      if(map.getZoom() < minMapZoom) map.setZoom(minMapZoom);
-    });
+    // add clearly visible zoom controls and tap support for mobile
+    const zoomControl = L.control.zoom({position:'bottomright'}).addTo(map);
+    zoomControl.getContainer().classList.add('map-zoom-control');
     map.on('click', function(e){
       const currentZoom = map.getZoom();
-      const maxZoom = map.getMaxZoom() || 18;
-      const nextZoom = Math.min(maxZoom, currentZoom + 2);
+      const maxZoom = map.getMaxZoom() || maxMapZoom;
+      const nextZoom = Math.min(maxZoom, currentZoom + 1);
       if (currentZoom < maxZoom) {
         map.setView(e.latlng, nextZoom, {animate:true});
       } else {
@@ -178,15 +170,13 @@
     // add a dock button to snap back into the grid
     const dock = document.createElement('button'); dock.className = 'map-dock'; dock.title = 'Dock map'; dock.innerHTML = '⤒'; mapEl.appendChild(dock);
     // ensure visible size
-    setTimeout(()=>map.invalidateSize(), 200);
+    map.whenReady(() => {
+      map.invalidateSize();
+      setTimeout(() => map.invalidateSize(), 250);
+    });
 
-    async function loadRainViewer(attempt = 1){
+    async function loadRainViewer(){
       try{
-        if(!map || !map._container || !document.body.contains(map._container) || !map._panes || !map._panes.overlayPane) {
-          console.warn('RainViewer skipped: Leaflet map not ready');
-          return;
-        }
-
         const res = await fetch('https://api.rainviewer.com/public/weather-maps.json');
         if(!res.ok) throw new Error('RainViewer json error');
         const json = await res.json();
@@ -198,45 +188,24 @@
         const frame = frames[frames.length - 1];
         const tilePath = frame.path || `/v2/radar/${frame.time}`;
         const url = `${json.host || 'https://tilecache.rainviewer.com'}${tilePath}/256/{z}/{x}/{y}/2/1_0.png`;
-        if(map._rainLayer) {
-          map.removeLayer(map._rainLayer);
-          map._rainLayer = null;
-        }
-        const tilePane = map.getPane('tilePane');
+        if(map._rainLayer) map.removeLayer(map._rainLayer);
         const rainLayer = L.tileLayer(url, {
           opacity:0.52,
           zIndex:10,
           className:'rain-overlay',
           minZoom:3,
           maxZoom:maxMapZoom,
-          maxNativeZoom:12,
-          noWrap:true,
-          pane: tilePane ? 'tilePane' : undefined
+          maxNativeZoom:maxMapZoom,
+          noWrap:true
         });
-        try {
-          rainLayer.addTo(map);
-          map._rainLayer = rainLayer;
-        } catch (innerError) {
-          if(attempt < 3){
-            await new Promise(resolve => setTimeout(resolve, 120));
-            return loadRainViewer(attempt + 1);
-          }
-          console.warn('RainViewer layer add failed final', innerError);
-        }
-      }catch(e){
-        if(attempt < 3){
-          await new Promise(resolve => setTimeout(resolve, 120));
-          return loadRainViewer(attempt + 1);
-        }
-        console.warn('RainViewer load failed', e);
-      }
+        rainLayer.addTo(map);
+        map._rainLayer = rainLayer;
+      }catch(e){ console.warn('RainViewer load failed', e); }
     }
 
     // initial load and periodic refresh
-    map.whenReady(() => {
-      loadRainViewer();
-      mapEl._rainInterval = setInterval(loadRainViewer, 5 * 60_000);
-    });
+    loadRainViewer();
+    setInterval(loadRainViewer, 5 * 60_000);
 
     // enable dragging via the handle
     initMapDraggable(mapEl, handle);
@@ -337,6 +306,4 @@
     mapEl.addEventListener('transitionend', finishDock);
   }
   
-  // The app uses Marietta, GA as the default live location.
 })();
-
