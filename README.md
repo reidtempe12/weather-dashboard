@@ -1,6 +1,6 @@
-# Marietta Weather Intelligence
+# Skyline Forecast
 
-A real-time weather dashboard for Marietta, Georgia, built with modern front-end technologies and live weather APIs. Designed for portfolio demonstration with a polished, dark-themed UI and interactive radar visualization.
+Skyline Forecast is a real-time weather dashboard built with modern front-end technologies and live weather APIs. Designed for portfolio demonstration with a polished, dark-themed UI and interactive radar visualization.
 
 ## ✨ Features
 
@@ -28,10 +28,10 @@ A real-time weather dashboard for Marietta, Georgia, built with modern front-end
 ### Local Development
 
 1. Clone the repository:
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/marietta-weather-dashboard.git
-   cd marietta-weather-dashboard
-   ```
+  ```bash
+  git clone https://github.com/reidtempe12/weather-dashboard.git
+  cd weather-dashboard
+  ```
 
 2. Open in your browser:
    ```bash
@@ -67,7 +67,7 @@ No build process or dependencies required — vanilla JavaScript and CDN librari
 1. Push to your GitHub repository
 2. Go to **Settings → Pages**
 3. Set source to `main` branch and `/root` directory
-4. Your dashboard is live at `https://YOUR-USERNAME.github.io/marietta-weather-dashboard`
+4. Your dashboard is live at `https://reidtempe12.github.io/weather-dashboard`
 
 ## 🎨 Design Features
 
